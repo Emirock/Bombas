@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Computadora : MonoBehaviour {
+    
+     public int vida=10;
 
 	// Use this for initialization
 	void Start () {
@@ -41,8 +43,32 @@ if (Input.GetKeyDown(KeyCode.DownArrow))
     go.GetComponent<Renderer>().material.color=this.GetComponent<Renderer>().material.color;
     go.transform.position = this.transform.position;
     go.transform.localScale = new Vector3(.5f, .5f, .5f);
+    go.AddComponent<Rigidbody>();
+    go.GetComponent<Collider>().isTrigger=true;
+    go.GetComponent<Rigidbody>().useGravity=false;
+    go.name= "BombaC";
+    
 }
+        if(vida==0)
+        {
+            Destroy(this);
+        }
 
 		
 	}
+    private void OnTriggerEnter(Collider other)
+{
+    if(other.gameObject.name=="BombaP")
+    {
+        Destroy(other.gameObject);
+        this.vida--;
+    }
 }
+    void OnGUI()
+{
+    
+    GUI.Label(new Rect(10,20,100,50),new
+    GUIContent("P2: "+this.vida));
+}
+}
+
